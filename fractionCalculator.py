@@ -1,6 +1,3 @@
-import sys
-import fraction
-
 class FractionCalculator:
     def __init__(self):
 
@@ -14,13 +11,18 @@ class FractionCalculator:
         self.result = None
         self.lcm = 0  # Lowest common multiple
         self.gcd = 0  # Greatest common divisor
-        self.negative = False
+        self.is_negative = False
 
     def calculate(self, num1, num2, operator):
         self.num1_numerator = num1.get_numerator()
         self.num1_denominator = num1.get_denominator()
         self.num2_numerator = num2.get_numerator()
         self.num2_denominator = num2.get_denominator()
+
+        valid_operators = ['+', '-', '*', '/']
+        if operator not in valid_operators:
+            print('Please enter a valid operator next time.')
+            exit()
 
         if operator == "+":
             self.addition()
@@ -36,6 +38,7 @@ class FractionCalculator:
             self.division()
 
         self.simplify()
+
         self.print_results()
 
     def addition(self):
@@ -90,7 +93,6 @@ class FractionCalculator:
             self.num2_numerator = self.num2_numerator * x
             self.denominator = self.lcm
 
-
     # I wrote my own function here, but there is a built in gcd method in python
     def greatest_common_divisor(self, first_num, second_num):
         # Finds the greatest common divisor using the Euclidean algorithm
@@ -115,12 +117,12 @@ class FractionCalculator:
         if (self.numerator < 0) is not (self.denominator < 0):
             self.numerator = abs(self.numerator)
             self.denominator = abs(self.denominator)
-            self.negative = True
+            self.is_negative = True
 
         if self.numerator < 0 and self.denominator < 0:
             self.numerator = abs(self.numerator)
             self.denominator = abs(self.denominator)
-            self.negative = False
+            self.is_negative = False
 
         # Converts improper fraction to a mixed number if necessary
         if self.numerator > self.denominator:
@@ -128,7 +130,6 @@ class FractionCalculator:
             self.numerator = self.numerator % self.denominator
             self.numerator = self.numerator / self.gcd
             self.denominator = self.denominator / self.gcd
-
 
         else:
             self.numerator = self.numerator / self.gcd
@@ -146,7 +147,7 @@ class FractionCalculator:
             self.numerator = int(self.numerator)
         if self.denominator:
             self.denominator = int(self.denominator)
-        if self.negative == True:
+        if self.is_negative == True:
             self.result = '-'
 
         else:
@@ -156,7 +157,29 @@ class FractionCalculator:
             self.result = self.result + str(self.whole_num)
             if self.numerator:
                 self.result = self.result + "_" + (str(self.numerator)) + '/' + str(self.denominator)
-            print(self.result)
+            print('The solution is: ' + self.result)
         else:
             self.result = self.result + str(self.numerator) + "/" + str(self.denominator)
-            print(self.result)
+            print('The solution is: ' + self.result)
+
+    # Getter functions
+    def get_numerator(self):
+        return self.numerator
+
+    def get_denominator(self):
+        return self.denominator
+
+    def get_whole_num(self):
+        return self.whole_num
+
+    def get_lcm(self):
+        return self.lcm
+
+    def get_gcd(self):
+        return self.gcd
+
+    def get_result(self):
+        return self.result
+
+    def get_is_negative(self):
+        return self.is_negative
